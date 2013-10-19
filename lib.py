@@ -10,7 +10,12 @@ def distance(pointA, pointB):
 def filterFingers(img):
 	hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 	ranges = [[(160, 179),(),()], [(38, 75),(),()], [(75, 130),(),()]]
-	# Crop the first quadrant
+	
+	height = hsv.shape[0]
+	width = hsv.shape[1]
+
+	hsvcropped = hsv[0:(height/2), (width/2):(width-1)] # Cropping the ROI
+
 	min = np.array([ranges[0][0][0], ranges[1][0][0], ranges[2][0][0]], np.uint8)
 	max = np.array([ranges[0][0][1], ranges[1][0][1], ranges[2][0][1]], np.uint8)
 	red = cv2.inRange(hsv, min, max)
