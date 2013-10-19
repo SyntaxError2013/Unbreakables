@@ -25,13 +25,6 @@ def get_strum(mode, direction):
 					rev += row2 + " "
 				return rev[:-1]
 
-def strum(mode, direction):
-	play.play(get_strum(mode, direction))
-
-def distance(pointA, pointB):
-	distance = math.sqrt(math.pow((pointA[0]-pointB[0]), 2) + math.pow((pointA[1]-pointB[1]), 2))
-	return distance
-
 def filterFingers(img):
 	ranges = [[(160, 179),(),()], [(38, 75),(),()], [(75, 130),(),()]]
 	
