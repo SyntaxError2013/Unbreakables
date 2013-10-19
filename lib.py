@@ -31,13 +31,16 @@ def getPositions(imgArray):
 
 	count=0
 
+	positions=[]
+
 	for img in imgArray:
 
 		image, contours, hierarchy = cv2.findContours(img,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
 
 		if len(contours)<1:
-			#Error
-			break
+			positions[count]=(0,0)
+			count++
+			continue
 
 
 		cnt=contours[0]
