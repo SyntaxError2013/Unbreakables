@@ -4,6 +4,35 @@ import numpy as np
 import math
 import play
 
+def modeToNodes(mode, direction):
+	notes = ""
+	if mode == 'A':
+		if direction == 'up':
+			notes = "E4 C#3 A4 E3 A2 E2"
+		else:
+			notes = "E2 A2 E3 A4 C#3 E4"
+	if mode == 'C':
+		if direction == 'up':
+			notes = "E4 C3 G3 E3 C2 E2"
+		else:
+			notes = "E2 C2 E3 G3 C3 E4"
+	if mode == 'D':
+		if direction == 'up':
+			notes = "F#4 D3 G#3 D3 A2 E2"
+		else:
+			notes = "E2 A2 D3 G#3 D3 F#4"
+	if mode == 'E':
+		if direction == 'up':
+			notes = "E4 B3 G#3 E3 B2 E2"
+		else:
+			notes = "E2 B2 E3 G#3 B3 E4"
+	if mode == 'G':
+		if direction == 'up':
+			notes = "G4 B3 G3 D3 B2 G2"
+		else:
+			notes = "G2 B2 D3 G3 B3 G4"
+	return notes
+
 def distance(pointA, pointB):
 	distance = math.sqrt(math.pow((pointA[0]-pointB[0]), 2) + math.pow((pointA[1]-pointB[1]), 2))
 	return distance
@@ -84,34 +113,6 @@ def getMode(positionArray):
 
 	return mode
 
-def strum(mode, direction):
-	# Plays the given mode using sox
-	if mode == 'A':
-		if direction == 'up':
-			play.play("E4 C#3 A4 E3 A2 E2")
-		else:
-			play.play("E2 A2 E3 A4 C#3 E4")
-	if mode == 'C':
-		if direction == 'up':
-			play.play("E4 C3 G3 E3 C2 E2")
-		else:
-			play.play("E2 C2 E3 G3 C3 E4")
-	if mode == 'D':
-		if direction == 'up':
-			play.play("F#4 D3 G#3 D3 A2 E2")
-		else:
-			play.play("E2 A2 D3 G#3 D3 F#4")
-	if mode == 'E':
-		if direction == 'up':
-			play.play("E4 B3 G#3 E3 B2 E2")
-		else:
-			play.play("E2 B2 E3 G#3 B3 E4")
-	if mode == 'G':
-		if direction == 'up':
-			play.play("G4 B3 G3 D3 B2 G2")
-		else:
-			play.play("G2 B2 D3 G3 B3 G4")
-	return
 
 def getLowerBlob(img):
 	# Filters lower blob and returns position
