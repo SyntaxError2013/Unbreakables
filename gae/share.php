@@ -1,32 +1,23 @@
 <?php
-	echo "Hello World";
+	define ('SITE_ROOT', realpath(dirname(__FILE__)));
+	$ERROR_UPLOAD = 100;
+	$ERROR_ALREADY_EXISTS = 101;
+	$ERROR_NO_FILE_SENT = 102;
+	$ERROR_MOVE_UPLOADED_FILE_FAILED = 103;
+	$SUCCESS = 150;
 
-	$db = mysqli_connect("localhost", "root", "rotator");
-
-	$query = "USE db";
-	mysqli_query($db, $query);
-
-
-if ($_FILES["file"]["error"] > 0)
- 	echo "Error: " . $_FILES["file"]["error"] . "<br>";
-else{
-	if(count($_FILES) > 0){
-		echo "Upload: " . $_FILES["file"]["name"] . "<br>";
-		echo "Type: " . $_FILES["file"]["type"] . "<br>";
-		echo "Size: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
-		echo "Stored in: " . $_FILES["file"]["tmp_name"];
-
-		$query = "INSERT INTO abc VALUES ('5')"
-		mysqli_query($db, $query);
-
-		if (file_exists("upload/" . $_FILES["file"]["name"]))
-    		echo $_FILES["file"]["name"] . " already exists. ";
-    	else{
-		move_uploaded_file($_FILES["file"]["tmp_name"],
-			"upload/" . $_FILES["file"]["name"]);
-			echo "Stored in: " . "upload/" . $_FILES["file"]["name"];
-		}
-	}
-}
-
+	if ($_FILES[linkin_park]["error"] == 0)
+		if(count($_FILES) > 0)
+			if (file_exists("upload/" . $_FILES[linkin_park]["name"]) == false)
+				if(move_uploaded_file($_FILES[linkin_park]["tmp_name"],
+					SITE_ROOT."/upload/".$_FILES[linkin_park]["name"]))
+					echo $SUCCESS;
+				else
+					echo $ERROR_MOVE_UPLOADED_FILE_FAILED;
+			else
+				echo $ERROR_ALREADY_EXISTS;
+		else
+			echo $ERROR_NO_FILE_SENT;
+	else
+		echo $ERROR_UPLOAD." ".$_FILES[linkin_park]["error"];
 ?>

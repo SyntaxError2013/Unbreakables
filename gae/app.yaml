@@ -4,5 +4,7 @@ runtime: php
 api_version: 1
 
 handlers:
-- url: /.*
+- url: /
   script: share.php
+- url: /music
+  script: music.php
