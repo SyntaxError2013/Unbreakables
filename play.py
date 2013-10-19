@@ -60,9 +60,6 @@ def play(notes, delay_period = 0.05, fade = [0, 4, 0.1]):
 	subprocess.call("play -n synth " + _gen_string(notes, delay_period, fade), shell = True)
 
 def save(file_name, notes, delay_period = 0.05, fade = [0, 4, 0.1]):
-	subprocess.call("sox -n synth " + file_name + ".wav " + _gen_string(notes, delay_period, fade), shell = True)
-
-def save(file_name, notes, delay_period = 0.05, fade = [0, 4, 0.1]):
 	final = "sox -n " + file_name + ".wav synth "
 	note_s = ""
 	for row in notes:
