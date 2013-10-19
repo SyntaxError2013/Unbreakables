@@ -21,8 +21,6 @@ def getPositions(imgArray):
 def getMode(positionArray):
 	# Finds mode using by filtering four color strips and finding positions
 
-	x=0,y=1
-
 	#Testing with Y coordinate Only
 
 	R=positionArray[0][1]
