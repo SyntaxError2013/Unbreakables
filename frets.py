@@ -5,13 +5,19 @@ import play
 
 vc = cv2.VideoCapture(0)
 ret, frame = vc.read()
-prevLowerPos = (0, 0)
 
 # Timer for saving strum timings and saving music
 start = time.time()
 gap = 0
 prevStrum = ""
 song = []
+
+# Motion detection flags
+prevPos = 0
+direction = 0
+up = 0
+down = 0
+firstframe = 1
 
 while ret:
 
@@ -29,33 +35,45 @@ while ret:
 	# Find the postion of lower strumming hand
 	lowerPos = lib.getLowerBlob(hsvframe)
 
-	# ------- Motion detection for lower hand
-	if prevLowerPos != (0,0):
-
-		# Check for up or down strum
+	# Motion detection for lower hand
+	if prevPos != 0:
+		disp = lowerPos[1] - prevPos
+		direction = direction + disp
+		if direction < -100:
+			up = 1
+			direction = 0
+		if direction > 100:
+			down = 1
+			direction = 0
+	if firstframe == 1:
+		firstframe = 0
+	prevPos = lowerPos[1]
 		
-		if down == 1:
+	# Perform the playback and append the strum in song
+	if down == 1:
+		if gap == 1:
+			elapsed = time.time() - start
+			song.append([prevStrum, elapsed])
+			gap == 0
+		play.play(lib.modeToNotes(mode, 'down'))
+		if gap == 0:
+			start = time.time()
+			prevStrum = lib.modeToNotes(mode, 'down')
+			gap = 1
+		down = 0
+
+	else:
+		if up == 1:
 			if gap == 1:
 				elapsed = time.time() - start
 				song.append([prevStrum, elapsed])
 				gap == 0
-			play.play(lib.modeToNotes(mode, 'down'))
+			play.play(lib.modeToNotes(mode, 'up'))
 			if gap == 0:
 				start = time.time()
 				prevStrum = lib.modeToNotes(mode, 'down')
 				gap = 1
-
-		else:
-			if up == 1:
-				if gap == 1:
-					elapsed = time.time() - start
-					song.append([prevStrum, elapsed])
-					gap == 0
-				play.play(lib.modeToNotes(mode, 'up'))
-				if gap == 0:
-					start = time.time()
-					prevStrum = lib.modeToNotes(mode, 'down')
-					gap = 1
+			up = 0
 
 	ret, frame = vc.read()
 	key = cv2.waitKey(20)
