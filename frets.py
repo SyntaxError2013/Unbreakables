@@ -50,12 +50,6 @@ while ret:
 					prevStrum = lib.modeToNotes(mode, 'down')
 					gap = 1
 
-				else:
-					elapsed = time.time() - start
-					# append
-					gap = 0.00
-
-
 	key = cv2.waitKey(20)
 	ret, frame = vc.read()
 	if key == 27:
