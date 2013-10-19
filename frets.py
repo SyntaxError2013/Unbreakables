@@ -55,10 +55,10 @@ while ret:
 			elapsed = time.time() - start
 			song.append([prevStrum, elapsed])
 			gap == 0
-		play.play(lib.modeToNotes(mode, 'down'))
+		play.play(lib.get_strum(mode, 'down'))
 		if gap == 0:
 			start = time.time()
-			prevStrum = lib.modeToNotes(mode, 'down')
+			prevStrum = lib.get_strum(mode, 'down')
 			gap = 1
 		down = 0
 
@@ -68,10 +68,10 @@ while ret:
 				elapsed = time.time() - start
 				song.append([prevStrum, elapsed])
 				gap == 0
-			play.play(lib.modeToNotes(mode, 'up'))
+			play.play(lib.get_strum(mode, 'up'))
 			if gap == 0:
 				start = time.time()
-				prevStrum = lib.modeToNotes(mode, 'down')
+				prevStrum = lib.get_strum(mode, 'down')
 				gap = 1
 			up = 0
 
