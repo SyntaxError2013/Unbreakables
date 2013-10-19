@@ -4,6 +4,7 @@ import numpy as np
 import math
 import play
 
+# Dictionary of notes
 def modeToNodes(mode, direction):
 	notes = ""
 	if mode == 'A':
@@ -61,7 +62,7 @@ def filterFingers(img):
 	return fingerArray
 
 def getPositions(imgArray):
-	# Returns the positions of filtered blobs from given imgs
+	# Returns the topmost points of filtered blobs from given imgs
 
 	count=0
 
@@ -112,7 +113,6 @@ def getMode(positionArray):
 		mode='G'
 
 	return mode
-
 
 def getLowerBlob(img):
 	# Filters lower blob and returns position
