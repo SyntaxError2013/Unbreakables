@@ -13,6 +13,8 @@ while ret:
 	fingerPositions = lib.getPositions(fingerImages)
 	mode = lib.getMode(fingerPositions)
 
+	#Add mode text
+
 	lowerPos = lib.getLowerBlob(hsvframe)
 	if prevLowerPos != (0,0):
 		# Check for up or down strum
