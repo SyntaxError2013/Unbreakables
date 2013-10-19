@@ -8,10 +8,22 @@ def distance(pointA, pointB):
 	return distance
 
 def filterFingers(img):
-	# Filters the four fingers
-	# Crops the first quadrant
+	hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+	ranges = [[(160, 179),(),()], [(38, 75),(),()], [(75, 130),(),()]]
+	# Crop the first quadrant
+	min = np.array([ranges[0][0][0], ranges[1][0][0], ranges[2][0][0]], np.uint8)
+	max = np.array([ranges[0][0][1], ranges[1][0][1], ranges[2][0][1]], np.uint8)
+	red = cv2.inRange(hsv, min, max)
 
-	# Returns an array of four filtered fingers images
+	min = np.array([ranges[0][1][0], ranges[1][1][0], ranges[2][1][0]], np.uint8)
+	max = np.array([ranges[0][1][1], ranges[1][1][1], ranges[2][1][1]], np.uint8)
+	green = cv2.inRange(hsv, min, max)
+
+	min = np.array([ranges[0][2][0], ranges[1][2][0], ranges[2][2][0]], np.uint8)
+	max = np.array([ranges[0][2][1], ranges[1][2][1], ranges[2][2][1]], np.uint8)
+	blue = cv2.inRange(hsv, min, max)
+	fingerArray = [red, green, blue]
+	# Returns an array of three filtered fingers images
 	return fingerArray
 
 def getPositions(imgArray):
@@ -19,7 +31,7 @@ def getPositions(imgArray):
 	return positions
 
 def getMode(positionArray):
-	# Finds mode using by filtering four color strips and finding positions
+	# Finds mode using by filtering three color strips and finding positions
 
 	#Testing with Y coordinate Only
 
