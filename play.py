@@ -2,18 +2,12 @@ import subprocess
 import decimal
 
 #Usage
-# play(	notes  - The string containing notes (eg: "A0 B3 E1 C4")
+# play(notes  - The string containing notes (eg: "A0 B3 E1 C4")
 # 	delay_period [OPTIONAL] - Delay between notes' playback
 # 	fade [OPTIONAL] - Fade time at end of playback
 # 	)
 
-# save(	file_name - The file to save to. Do not include an extension
-# 	notes  -The string containing notes  (eg: "A0 B3 E1 C4")
-# 	delay_period [OPTIONAL] - Delay between notes' playback
-# 	fade [OPTIONAL] - Fade time at end of playback
-# 	)
-
-# save(	file_name - The file to save to. Do not include an extension
+# save(file_name - The file to save to. Do not include an extension
 # 	notes  - Array of a 2 element arrays (eg: [["A3 G2", 0.00], ["C3 D1", 0.07]])
 # 		The strums play at the time specified in the second argument for each row.
 # 	delay_period [OPTIONAL] - Delay between notes' playback (within a particular strum)
