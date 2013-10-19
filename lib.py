@@ -8,25 +8,24 @@ def distance(pointA, pointB):
 	return distance
 
 def filterFingers(img):
-	hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 	ranges = [[(160, 179),(),()], [(38, 75),(),()], [(75, 130),(),()]]
 	
-	height = hsv.shape[0]
-	width = hsv.shape[1]
+	height = img.shape[0]
+	width = img.shape[1]
 
-	hsvcropped = hsv[0:(height/2), (width/2):(width-1)] # Cropping the ROI
+	imgcropped = img[0:(height/2), (width/2):(width-1)] # Cropping the ROI
 
 	min = np.array([ranges[0][0][0], ranges[1][0][0], ranges[2][0][0]], np.uint8)
 	max = np.array([ranges[0][0][1], ranges[1][0][1], ranges[2][0][1]], np.uint8)
-	red = cv2.inRange(hsv, min, max)
+	red = cv2.inRange(imgcropped, min, max)
 
 	min = np.array([ranges[0][1][0], ranges[1][1][0], ranges[2][1][0]], np.uint8)
 	max = np.array([ranges[0][1][1], ranges[1][1][1], ranges[2][1][1]], np.uint8)
-	green = cv2.inRange(hsv, min, max)
+	green = cv2.inRange(imgcropped, min, max)
 
 	min = np.array([ranges[0][2][0], ranges[1][2][0], ranges[2][2][0]], np.uint8)
 	max = np.array([ranges[0][2][1], ranges[1][2][1], ranges[2][2][1]], np.uint8)
-	blue = cv2.inRange(hsv, min, max)
+	blue = cv2.inRange(imgcropped, min, max)
 	fingerArray = [red, green, blue]
 	# Returns an array of three filtered fingers images
 	return fingerArray
@@ -90,4 +89,21 @@ def strum(mode, direction):
 
 def getLowerBlob(img):
 	# Filters lower blob and returns position
+	position = (0, 0)
+	height = img.shape[0]
+	width = img.shape[1]
+
+	imgcropped = img[(height/2):(height-1), 0:(width/2)] # Cropping the ROI
+	
+	ranges = [(160, 179),(),()]
+
+	min = np.array([ranges[0][0], ranges[0][0], ranges[0][0]], np.uint8)
+	max = np.array([ranges[0][1], ranges[0][1], ranges[0][1]], np.uint8)
+	lowerhand = [cv2.inRange(imgcropped, min, max)]
+
+	pos = getPositions(lowerhand)
+
+	if pos != (0, 0):
+		position = pos
+
 	return position

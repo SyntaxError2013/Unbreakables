@@ -8,11 +8,12 @@ prevLowerPos = (0, 0)
 while ret:
 	cv2.imshow('preview', frame)
 
-	fingerImages = lib.fingerImages(frame)
+	hsvframe = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+	fingerImages = lib.fingerImages(hsvframe)
 	fingerPositions = lib.getPositions(fingerImages)
 	mode = lib.getMode(fingerPositions)
 
-	lowerPos = lib.getLowerBlob(frame)
+	lowerPos = lib.getLowerBlob(hsvframe)
 	if prevLowerPos != (0,0):
 		# Check for up or down strum
 		if down == 1:
