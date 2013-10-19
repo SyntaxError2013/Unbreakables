@@ -1,7 +1,5 @@
 import cv2
-import sys
 import numpy as np
-import math
 import play
 
 strums = [
@@ -121,5 +119,3 @@ def getLowerBlob(img):
 		position = pos
 
 	return position
-
-print get_strum('G', 'down')
