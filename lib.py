@@ -28,6 +28,26 @@ def filterFingers(img):
 
 def getPositions(imgArray):
 	# Returns the positions of filtered blobs from given imgs
+
+	count=0
+
+	for img in imgArray:
+
+		image, contours, hierarchy = cv2.findContours(img,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+
+		if len(contours)<1:
+			#Error
+			break
+
+
+		cnt=contours[0]
+
+		topmost = tuple(cnt[cnt[:,:,1].argmin()][0])
+
+		positions[count]=topmost
+
+		count++
+
 	return positions
 
 def getMode(positionArray):
