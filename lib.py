@@ -1,9 +1,10 @@
 import cv2
 import sys
 import numpy as np
+import math
 
 def distance(pointA, pointB):
-	# returns the distance between two points
+	distance = math.sqrt(math.pow((pointA[0]-pointB[0]), 2) + math.pow((pointA[1]-pointB[1]), 2))
 	return distance
 
 def filterFingers(img):
