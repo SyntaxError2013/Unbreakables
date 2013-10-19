@@ -19,6 +19,30 @@ def getPositions(imgArray):
 
 def getMode(positionArray):
 	# Finds mode using by filtering four color strips and finding positions
+
+	x=0,y=1
+
+	#Testing with Y coordinate Only
+
+	R=positionArray[0][1]
+	G=positionArray[1][1]
+	B=positionArray[2][1]
+
+	if R>G>B:
+		mode='A'
+
+	elif B>G>R:
+		mode='C'
+
+	elif R>B>G: 
+		mode='D'
+
+	elif G>B>R:
+		mode='E'
+
+	else:
+		mode='G'
+
 	return mode
 
 def strum(mode, direction):
