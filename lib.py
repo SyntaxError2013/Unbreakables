@@ -5,34 +5,57 @@ import math
 import play
 
 # Dictionary of notes
-def modeToNodes(mode, direction):
-	notes = ""
-	if mode == 'A':
-		if direction == 'up':
-			notes = "E4 C#3 A4 E3 A2 E2"
-		else:
-			notes = "E2 A2 E3 A4 C#3 E4"
-	if mode == 'C':
-		if direction == 'up':
-			notes = "E4 C3 G3 E3 C2 E2"
-		else:
-			notes = "E2 C2 E3 G3 C3 E4"
-	if mode == 'D':
-		if direction == 'up':
-			notes = "F#4 D3 G#3 D3 A2 E2"
-		else:
-			notes = "E2 A2 D3 G#3 D3 F#4"
-	if mode == 'E':
-		if direction == 'up':
-			notes = "E4 B3 G#3 E3 B2 E2"
-		else:
-			notes = "E2 B2 E3 G#3 B3 E4"
-	if mode == 'G':
-		if direction == 'up':
-			notes = "G4 B3 G3 D3 B2 G2"
-		else:
-			notes = "G2 B2 D3 G3 B3 G4"
-	return notes
+# def modeToNodes(mode, direction):
+# 	notes = ""
+# 	if mode == 'A':
+# 		if direction == 'up':
+# 			notes = "E4 C#3 A4 E3 A2 E2"
+# 		else:
+# 			notes = "E2 A2 E3 A4 C#3 E4"
+# 	if mode == 'C':
+# 		if direction == 'up':
+# 			notes = "E4 C3 G3 E3 C2 E2"
+# 		else:
+# 			notes = "E2 C2 E3 G3 C3 E4"
+# 	if mode == 'D':
+# 		if direction == 'up':
+# 			notes = "F#4 D3 G#3 D3 A2 E2"
+# 		else:
+# 			notes = "E2 A2 D3 G#3 D3 F#4"
+# 	if mode == 'E':
+# 		if direction == 'up':
+# 			notes = "E4 B3 G#3 E3 B2 E2"
+# 		else:
+# 			notes = "E2 B2 E3 G#3 B3 E4"
+# 	if mode == 'G':
+# 		if direction == 'up':
+# 			notes = "G4 B3 G3 D3 B2 G2"
+# 		else:
+# 			notes = "G2 B2 D3 G3 B3 G4"
+# 	return notes
+strums = [
+	['A',  'E4 C#3 A4 E3 A2 E2'],
+	['C', 'E4 C3 G3 E3 C2 E2'],
+	['D', 'F#4 D3 G#3 D3 A2 E2'],
+	['E', 'E4 B3 G#3 E3 B2 E2'],
+	['G', 'G4 B3 G3 D3 B2 G2']]
+
+def get_strum(mode, direction):
+	if direction == 'up':
+		for row in strums:
+			if row[0] == mode:
+				return row[1]
+	else:
+		for row in strums:
+			if row[0] == mode:
+				rev = ""
+				_array = row[1].split(" ")
+				for row2 in reversed(_array):
+					rev += row2 + " "
+				return rev
+
+def strum(mode, direction):
+	play.play(get_strum(mode, direction))
 
 def distance(pointA, pointB):
 	distance = math.sqrt(math.pow((pointA[0]-pointB[0]), 2) + math.pow((pointA[1]-pointB[1]), 2))
@@ -74,7 +97,7 @@ def getPositions(imgArray):
 
 		if len(contours)<1:
 			positions[count]=(0,0)
-			count++
+			count+=1
 			continue
 
 
@@ -84,7 +107,7 @@ def getPositions(imgArray):
 
 		positions[count]=topmost
 
-		count++
+		count+=1
 
 	return positions
 
