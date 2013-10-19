@@ -52,7 +52,7 @@ def get_strum(mode, direction):
 				_array = row[1].split(" ")
 				for row2 in reversed(_array):
 					rev += row2 + " "
-				return rev
+				return rev[:-1]
 
 def strum(mode, direction):
 	play.play(get_strum(mode, direction))
@@ -157,3 +157,5 @@ def getLowerBlob(img):
 		position = pos
 
 	return position
+
+print get_strum('G', 'down')
