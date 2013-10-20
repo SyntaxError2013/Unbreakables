@@ -7,9 +7,6 @@ vc = cv2.VideoCapture(0)
 	
 def init():
 	#Initialize and configure
-
-	
-	
 	configure()
 	start()
 
@@ -55,9 +52,9 @@ def start():
 		# Change color space for better detection
 		hsvframe = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 		fingerImages = lib.filterFingers(hsvframe)
-		cv2.imshow('red', fingerImages[0])	
-		cv2.imshow('green', fingerImages[1])
-		cv2.imshow('blue', fingerImages[2])
+		# cv2.imshow('red', fingerImages[0])	
+		# cv2.imshow('green', fingerImages[1])
+		# cv2.imshow('blue', fingerImages[2])
 
 		fingerPositions = lib.getPositions(fingerImages)
 
