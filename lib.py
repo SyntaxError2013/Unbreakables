@@ -170,11 +170,11 @@ def getPattern(mode,dist,direction):
 		_array = pattern.split(" ")
 		for row2 in reversed(_array):
 			rev += row2 + " "
-		return rev[:-1]		
+		return rev[:-1]
 
 def initNeck(top,bottom):
 	#Initialize the neck length
-	neck_len=(bottom[0][0]-top[0])/2
+	neck_len=(top[0]-bottom[0][0])/2
 	neck_bottom=bottom[0][0]
 	neck_top=top[0]
 
@@ -185,7 +185,7 @@ def getDistance(positions):
 	for pos in positions:
 		mean+=pos[0]
 
-	mean=mean/3-neck_top
+	mean=neck_top-mean/3
 
 	if mean > 3*neck_len/4:
 		return 3
