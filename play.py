@@ -1,5 +1,6 @@
 import subprocess
 import decimal
+import thread
 
 #Usage
 # play(notes  - The string containing notes (eg: "A0 B3 E1 C4")
@@ -50,11 +51,12 @@ def _gen_times(base, size, delay_period = 0.05):
 	return k, times
 
 
-def play(notes, delay_period = 0.05, fade = [0, 4, 0.1]):
+def _play(notes, delay_period = 0.05, fade = [0, 4, 0.1]):
 	subprocess.call("play -n synth " + _gen_string(notes, delay_period, fade), shell = True)
+	return
 
-def save(file_name, notes, delay_period = 0.05, fade = [0, 4, 0.1]):
-	final = "sox -n " + file_name + ".wav synth "
+def _save(file_name, notes, delay_period = 0.05, fade = [0, 4, 0.1]):
+	final = "sox -n music/" + file_name + ".wav synth "
 	note_s = ""
 	for row in notes:
 		final += _gen_string(row[0], 0, [0, 0, 0])
@@ -79,6 +81,9 @@ def save(file_name, notes, delay_period = 0.05, fade = [0, 4, 0.1]):
 		final += "norm -1"
 	subprocess.call(final, shell = True)
 
+def play(notes, delay_period = 0.05, fade = [0, 4, 0.1]):
+	thread.start_new_thread(_play, (notes, delay_period, fade))
 
-
+def save(file_name, notes, delay_period = 0.05, fade = [0, 4, 0.1]):
+	thread.start_new_thread(_save, (file_name, notes, delay_period, fade))
 
