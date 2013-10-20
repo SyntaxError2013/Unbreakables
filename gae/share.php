@@ -6,6 +6,7 @@
 	$ERROR_MOVE_UPLOADED_FILE_FAILED = 103;
 	$SUCCESS = 150;
 
+	var_dump($_FILES);
 	if ($_FILES[linkin_park]["error"] == 0)
 		if(count($_FILES) > 0)
 			if (file_exists("upload/" . $_FILES[linkin_park]["name"]) == false)

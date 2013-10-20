@@ -5,11 +5,12 @@
 	use google\appengine\api\users\UserService;
 	
 	$user = UserService::getCurrentUser();
+	$REDIRECT = 'http://localhost:8080/music'
 
 	if ($user == null){
 		header('Location: ' .
-					 UserService::createLoginURL('http://localhost:8080/music'));
+					 UserService::createLoginURL($REDIRECT ));
 	}
 	else
-		header('Location: '.'http://localhost:8080/music')
+		header('Location: '.$REDIRECT)
 ?>
