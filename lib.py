@@ -2,10 +2,14 @@ import cv2
 import numpy as np
 import play
 
+neck_len=500
+neck_top=0
+neck_bottom=500
+
 strums = [
 	['A',  'E4 C#3 A4 E3 A2 E2'],
 	['C', 'E4 C3 G3 E3 C2 E2'],
-	['D', 'F#4 D3 G#3 D3 A2 E2'],
+	['D', 'F#4 D3 A4 D3 A2 E2'],
 	['E', 'E4 B3 G#3 E3 B2 E2'],
 	['G', 'G4 B3 G3 D3 B2 G2']]
 
@@ -15,7 +19,7 @@ strums = [
 strums = [
 	'A': [(3,7),(2,4),(3,0),(2,7),(1,0),(1,7)],
 	'C': [(3,7),(2,3),(10,2),(2,7),(1,3),(1,7)],
-	'D': [(3,9),(2,5),(2,11),(2,5),(1,0),(1,7)],
+	'D': [(3,9),(2,5),(3,0),(2,5),(1,0),(1,7)],
 	'E': [(3,7),(2,2),(2,11),(2,7),(1,2),(1,7)],
 	'G': [(3,10),(2,2),(2,10),(2,5),(1,2),(1,10)]]
 
@@ -147,3 +151,28 @@ def getPattern(mode,dist):
 			pattern=pattern+notes_ar[note[0]][(note[1]+dist)%12]+' '
 
 	return pattern
+
+def initNeck(top,bottom):
+	#Initialize the neck length
+	neck_len=bottom[0]-top[0]
+	neck_bottom=bottom[0]
+	neck_top=top[0]
+
+def getDistance(positions):
+	#Get Distance on the neck
+	mean=0
+
+	for pos in positions:
+		mean+=pos[0]
+
+	mean=mean/3-neck_top
+
+	if mean > 3*neck_len/4:
+		return 3
+	elif mean > 2*neck_len/4:
+		return 2
+	elif mean > neck_len/4:
+		return 1
+	else:
+		return 0
+
