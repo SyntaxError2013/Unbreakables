@@ -5,7 +5,7 @@
 	use google\appengine\api\users\UserService;
 	
 	$user = UserService::getCurrentUser();
-	$REDIRECT = 'http://localhost:8080/music';
+	$REDIRECT = 'http://localhost:8080/play';
 
 	if ($user == null){
 		header('Location: ' .

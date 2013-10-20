@@ -12,7 +12,7 @@ def index():
 @route('/madfrets')
 def index():
 	thread.start_new_thread(frets.init())
-	return "Initiated Capture"
+	return static_file('index.html', root=root, mimetype='text/html')
 
 @route('/css/<filename:re:.*\.css>')
 def send_image(filename):

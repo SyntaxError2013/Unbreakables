@@ -8,9 +8,11 @@ handlers:
   static_dir: css
 - url: /images
   static_dir: images
+- url: /upload
+  static_dir: upload
 - url: /
   script: login.php
-- url: /music
-  script: music.php
+- url: /play
+  script: play.php
 - url: /share
   script: share.php

@@ -59,7 +59,7 @@ def _play(notes, delay_period = 0.05, fade = [0, 4, 0.1]):
 	return
 
 def _save(file_name, notes, delay_period = 0.05, fade = [0, 4, 0.1]):
-	final = "sox -n music/" + file_name + ".wav synth "
+	final = "sox -n public/music/" + file_name + ".wav synth "
 	note_s = ""
 	for row in notes:
 		final += _gen_string(row[0], 0, [0, 0, 0])

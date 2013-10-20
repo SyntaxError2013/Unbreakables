@@ -14,7 +14,8 @@ import requests
 ERROR_NO_RESPONSE = 160
 def send(file_name, user = "Anonymous", url = "http://localhost:8080/share"):
 	files = { 'linkin_park' : open('music/' + file_name + '.wav', 'rb')}
-	r = requests.post(url, files=files)
+	data = {'email': user}
+	r = requests.post(url, files=files, data=data)
 	if not r.text == '':
 		return int(r.text)
 	else:
