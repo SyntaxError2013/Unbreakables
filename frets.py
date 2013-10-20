@@ -92,6 +92,11 @@ def start():
 				elapsed = time.time() - start
 				song.append([prevStrum, elapsed])
 				gap == 0
+				if prevTime != 0.00:
+					song.append([prevStrum, (elapsed-prevTime)])
+				else:
+					song.append([prevStrum, 0.00])
+				prevTime = elapsed
 			play.play(lib.getPattern(mode,distance,'down'))
 			if gap == 0:
 				start = time.time()
@@ -105,6 +110,11 @@ def start():
 					elapsed = time.time() - start
 					song.append([prevStrum, elapsed])
 					gap == 0
+					if prevTime != 0.00:
+						song.append([prevStrum, (elapsed-prevTime)])
+					else:
+						song.append([prevStrum, 0.00])
+					prevTime = elapsed
 				play.play(lib.getPattern(mode,distance,'up'))
 				if gap == 0:
 					start = time.time()
@@ -115,10 +125,5 @@ def start():
 		ret, frame = vc.read()
 		key = cv2.waitKey(20)
 		if key == 27:	#Ends the session and save the song. Press ESCAPE key
-			print song
-			play.save('muse', song)
+			play.save('muse', song, 0.05, [0, prevTime, 0.1])
 			break
-
-
-init()
-
