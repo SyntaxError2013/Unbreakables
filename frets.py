@@ -111,4 +111,4 @@ def init():
 			break
 
 	cv2.destroyAllWindows()
-t
+
