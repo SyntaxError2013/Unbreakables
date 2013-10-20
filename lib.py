@@ -148,9 +148,9 @@ def getLowerBlob(img):
 def getPattern(mode,dist):
 	pattern=''
 	for note in strum[mode]:
-		if(note[1]+dist>11):
+		if note[1]+dist>11:
 			pattern=pattern+notes_ar[note[0]+1][(note[1]+dist)%12]+' '
-		else
+		else:
 			pattern=pattern+notes_ar[note[0]][(note[1]+dist)%12]+' '
 
 	return pattern

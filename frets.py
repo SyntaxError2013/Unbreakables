@@ -7,7 +7,8 @@ def init():
 	#Initialize and configure
 
 	vc = cv2.VideoCapture(0)
-	time.sleep(3)
+	
+	configure();
 
 	ret, frame = vc.read()
 
@@ -32,11 +33,9 @@ def init():
 		cv2.imshow('green', fingerImages[1])
 		cv2.imshow('blue', fingerImages[2])
 
-		#Initialize the Neck
-
 		fingerPositions = lib.getPositions(fingerImages)
 
-		lib.initNeck(fingerPositions[0],lib.getLowerBlob(hsvframe))
+		
 
 		# Detect the mode of playback
 		mode = lib.getMode(fingerPositions)
@@ -96,4 +95,26 @@ def init():
 			break
 
 	cv2.destroyAllWindows()
+
+
+
+def configure():
+
+	time.sleep(3)
+
+	ret, frame = vc.read()
+	
+	if ret:
+		hsvframe = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+		fingerImages = lib.filterFingers(hsvframe)
+		fingerPositions = lib.getPositions(fingerImages)
+		lowerPos = lib.getLowerBlob(hsvframe)
+		lib.initNeck(fingerPositions[0],lowerPos)
+
+	time.sleep(1)
+
+
+
+
+
 
