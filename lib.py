@@ -39,9 +39,9 @@ ranges = [[(160, 179),(106, 255),(0, 255)], # Red
 def clearNoise(img):
 	kernel = np.ones((10, 10), np.uint8)
 	clrimg = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
-	clrimg = cv2.erode(morph, kernel, iterations=1)
-	kernel = np.ones((20, 20), np.uint8)
-	clrimg = cv2.dilate(morph, kernel, iterations=2)
+	clrimg = cv2.erode(img, kernel, iterations=1)
+	kernel = np.ones((15, 15), np.uint8)
+	clrimg = cv2.dilate(img, kernel, iterations=2)
 	# Clears noise from image
 	return clrimg
 
@@ -68,12 +68,23 @@ def filterFingers(img):
 
 	fingerArray = []
 
-	for x in range(3):
-		min = np.array([ranges[x-1][0][0], ranges[x-1][1][0], ranges[x-1][2][0]], np.uint8)
-		max = np.array([ranges[x-1][0][1], ranges[x-1][1][1], ranges[x-1][2][1]], np.uint8)
-		im = cv2.inRange(imgcropped, min, max)
-		im = clearNoise(im)
-		fingerArray.append(im)
+	min = np.array([ranges[0][0][0], ranges[0][1][0], ranges[0][2][0]], np.uint8)
+	max = np.array([ranges[0][0][1], ranges[0][1][1], ranges[0][2][1]], np.uint8)
+	red = cv2.inRange(imgcropped, min, max)
+	red = clearNoise(red)
+	fingerArray.append(red)
+
+	min = np.array([ranges[1][0][0], ranges[1][1][0], ranges[1][2][0]], np.uint8)
+	max = np.array([ranges[1][0][1], ranges[1][1][1], ranges[1][2][1]], np.uint8)
+	green = cv2.inRange(imgcropped, min, max)
+	green = clearNoise(green)
+	fingerArray.append(green)
+
+	min = np.array([ranges[2][0][0], ranges[2][1][0], ranges[2][2][0]], np.uint8)
+	max = np.array([ranges[2][0][1], ranges[2][1][1], ranges[2][2][1]], np.uint8)
+	blue = cv2.inRange(imgcropped, min, max)
+	blue = clearNoise(blue)
+	fingerArray.append(blue)
 
 	# Returns an array of three filtered fingers images
 	return fingerArray
@@ -137,7 +148,7 @@ def getLowerBlob(img):
 	min = np.array([ranges[2][0][0], ranges[2][1][0], ranges[2][2][0]], np.uint8)
 	max = np.array([ranges[2][0][1], ranges[2][1][1], ranges[2][2][1]], np.uint8)
 	lowerhand = [cv2.inRange(imgcropped, min, max)]
-
+	lowerhand[0] = clearNoise(lowerhand[0])
 	pos = getPositions(lowerhand)
 
 	if pos != (0, 0):

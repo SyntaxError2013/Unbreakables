@@ -72,10 +72,10 @@ def play():
 		if prevPos != 0:
 			disp = lowerPos[0][1] - prevPos
 			direction = direction + disp
-			if direction < -100:
+			if direction < -200:
 				up = 1
 				direction = 0
-			if direction > 100:
+			if direction > 200:
 				down = 1
 				direction = 0
 		if firstframe == 1:
@@ -113,6 +113,3 @@ def play():
 		if key == 27:	#Ends the session and save the song. Press ESCAPE key
 			play.save('muse', song)
 			break
-
-
-
