@@ -18,7 +18,7 @@
         	echo htmlspecialchars($_POST['content']);
         	echo "\n</pre>";
         }
-        	echo <<<END
+        echo <<<END
 <form action="/music" method="post">
 <div><textarea name="content" rows="3" cols="60"></textarea></div>
 <div><input type="submit" value="Sign Guestbook"></div>

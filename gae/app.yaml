@@ -9,8 +9,8 @@ handlers:
 - url: /images
   static_dir: images
 - url: /
-  script: share.php
+  script: login.php
 - url: /music
   script: music.php
-- url: /login
-  script: login.php
+- url: /share
+  script: share.php
