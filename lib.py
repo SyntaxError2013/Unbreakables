@@ -31,6 +31,20 @@ notes_ar = [['A1','A#1','B1','C1','C#1','D1','D#1','E1','F1','F#1','G1','G#1'],
 		['A4','A#4','B4','C4','C#4','D4','D#4','E4','F4','F#4','G4','G#4'],
 		['A5','A#5','B5','C5','C#5','D5','D#5','E5','F5','F#5','G5','G#5']]
 
+# HSV color ranges
+ranges = [[(160, 179),(106, 255),(0, 255)], # Red
+		[(38, 75),(81, 255),(0, 255)],	# Green
+		[(75, 130),(90, 255),(0, 255)]] # Blue
+
+def clearNoise(img):
+	kernel = np.ones((10, 10), np.uint8)
+	clrimg = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
+	clrimg = cv2.erode(morph, kernel, iterations=1)
+	kernel = np.ones((20, 20), np.uint8)
+	clrimg = cv2.dilate(morph, kernel, iterations=2)
+	# Clears noise from image
+	return clrimg
+
 def get_strum(mode, direction):
 	if direction == 'up':
 		for row in strums:
@@ -46,25 +60,21 @@ def get_strum(mode, direction):
 				return rev[:-1]
 
 def filterFingers(img):
-	ranges = [[(160, 179),(),()], [(38, 75),(),()], [(75, 130),(),()]]
-	
+		
 	height = img.shape[0]
 	width = img.shape[1]
 
 	imgcropped = img[0:(height/2), (width/2):(width-1)] # Cropping the ROI
 
-	min = np.array([ranges[0][0][0], ranges[1][0][0], ranges[2][0][0]], np.uint8)
-	max = np.array([ranges[0][0][1], ranges[1][0][1], ranges[2][0][1]], np.uint8)
-	red = cv2.inRange(imgcropped, min, max)
+	fingerArray = []
 
-	min = np.array([ranges[0][1][0], ranges[1][1][0], ranges[2][1][0]], np.uint8)
-	max = np.array([ranges[0][1][1], ranges[1][1][1], ranges[2][1][1]], np.uint8)
-	green = cv2.inRange(imgcropped, min, max)
+	for x in range(2):
+		min = np.array([ranges[x][0][0], ranges[x][1][0], ranges[x][2][0]], np.uint8)
+		max = np.array([ranges[x][0][1], ranges[x][1][1], ranges[x][2][1]], np.uint8)
+		im = cv2.inRange(imgcropped, min, max)
+		im = clearNoise(im)
+		fingerArray.append(im)
 
-	min = np.array([ranges[0][2][0], ranges[1][2][0], ranges[2][2][0]], np.uint8)
-	max = np.array([ranges[0][2][1], ranges[1][2][1], ranges[2][2][1]], np.uint8)
-	blue = cv2.inRange(imgcropped, min, max)
-	fingerArray = [red, green, blue]
 	# Returns an array of three filtered fingers images
 	return fingerArray
 
@@ -128,11 +138,9 @@ def getLowerBlob(img):
 	width = img.shape[1]
 
 	imgcropped = img[(height/2):(height-1), 0:(width/2)] # Cropping the ROI
-	
-	ranges = [(160, 179),(),()]
 
-	min = np.array([ranges[0][0], ranges[0][0], ranges[0][0]], np.uint8)
-	max = np.array([ranges[0][1], ranges[0][1], ranges[0][1]], np.uint8)
+	min = np.array([ranges[2][0][0], ranges[2][1][0], ranges[2][2][0]], np.uint8)
+	max = np.array([ranges[2][0][1], ranges[2][1][1], ranges[2][2][1]], np.uint8)
 	lowerhand = [cv2.inRange(imgcropped, min, max)]
 
 	pos = getPositions(lowerhand)
