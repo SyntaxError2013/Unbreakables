@@ -41,6 +41,8 @@ def start():
 	gap = 0
 	prevStrum = ""
 	song = []
+	prevTime = 0.00
+	elapsed = 0.00
 
 	# Motion detection flags
 	prevPos = 0
@@ -113,7 +115,9 @@ def start():
 		ret, frame = vc.read()
 		key = cv2.waitKey(20)
 		if key == 27:	#Ends the session and save the song. Press ESCAPE key
+			print song
 			play.save('muse', song)
+			break
 
 
 init()
