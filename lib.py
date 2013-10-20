@@ -145,8 +145,8 @@ def getLowerBlob(img):
 
 	imgcropped = img[(height/2):(height-1), 0:(width/2)] # Cropping the ROI
 
-	min = np.array([ranges[2][0][0], ranges[2][1][0], ranges[2][2][0]], np.uint8)
-	max = np.array([ranges[2][0][1], ranges[2][1][1], ranges[2][2][1]], np.uint8)
+	min = np.array([ranges[0][0][0], ranges[0][1][0], ranges[0][2][0]], np.uint8)
+	max = np.array([ranges[0][0][1], ranges[0][1][1], ranges[0][2][1]], np.uint8)
 	lowerhand = [cv2.inRange(imgcropped, min, max)]
 	lowerhand[0] = clearNoise(lowerhand[0])
 	pos = getPositions(lowerhand)
@@ -158,18 +158,24 @@ def getLowerBlob(img):
 
 def getPattern(mode,dist,direction):
 	pattern=''
-	for note in strum[mode]:
+	for note in strums[mode]:
 		if note[1]+dist>11:
 			pattern=pattern+notes_ar[note[0]+1][(note[1]+dist)%12]+' '
 		else:
 			pattern=pattern+notes_ar[note[0]][(note[1]+dist)%12]+' '
-
-	return pattern
+	if direction=='up':
+		return pattern
+	else:
+		rev = ""
+		_array = pattern.split(" ")
+		for row2 in reversed(_array):
+			rev += row2 + " "
+		return rev[:-1]		
 
 def initNeck(top,bottom):
 	#Initialize the neck length
-	neck_len=bottom[0]-top[0]
-	neck_bottom=bottom[0]
+	neck_len=(bottom[0][0]-top[0])/2
+	neck_bottom=bottom[0][0]
 	neck_top=top[0]
 
 def getDistance(positions):
