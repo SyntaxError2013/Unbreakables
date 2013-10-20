@@ -1,6 +1,7 @@
 from bottle import route, run, template, static_file
 import play
 import frets
+import thread
 
 root = '/home/prakhar/dev/se13/Unbreakables/public/'
 
@@ -10,7 +11,7 @@ def index():
 
 @route('/madfrets')
 def index():
-	frets.init()
+	thread.start_new_thread(frets.init())
 	return "Initiated Capture"
 
 @route('/css/<filename:re:.*\.css>')
