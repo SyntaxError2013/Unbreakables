@@ -114,16 +114,16 @@ def getMode(positionArray):
 	G=positionArray[1][1]
 	B=positionArray[2][1]
 
-	if R>G>B:
+	if R<G<B:
 		mode='A'
 
-	elif B>G>R:
+	elif B<G<R:
 		mode='C'
 
-	elif R>B>G: 
+	elif R<B<G: 
 		mode='D'
 
-	elif G>B>R:
+	elif G<B<R:
 		mode='E'
 
 	else:
