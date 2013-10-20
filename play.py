@@ -1,3 +1,6 @@
+#Library to play the chords
+#and save the music files
+
 import subprocess
 import decimal
 import thread

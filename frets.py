@@ -1,3 +1,7 @@
+#Called by the server to start a session
+#Defines the basic flow of execution of each session
+#inlcudes configuring the neck, playing and saving
+
 import lib
 import cv2
 import time
@@ -29,7 +33,7 @@ def configure():
 
 	time.sleep(1)
 
-
+#To get the strum direction and timing
 def start():
 	ret, frame = vc.read()
 

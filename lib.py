@@ -1,3 +1,7 @@
+#Basic Library of Functions
+#To Identify Various Chords and Strums
+#Using openCV
+
 import cv2
 import numpy as np
 import play
@@ -6,16 +10,10 @@ neck_len=500
 neck_top=0
 neck_bottom=500
 
-"""
-strums = [
-	['A',  'E4 C#3 A4 E3 A2 E2'],
-	['C', 'E4 C3 G3 E3 C2 E2'],
-	['D', 'F#4 D3 A4 D3 A2 E2'],
-	['E', 'E4 B3 G#3 E3 B2 E2'],
-	['G', 'G4 B3 G3 D3 B2 G2']]
-"""
 
 #(post_fix_num,note)
+
+#Notes making each chords in Standard Guitar Tuning
 
 strums = {
 	'A': [(3,7),(2,4),(3,0),(2,7),(1,0),(1,7)],
@@ -24,6 +22,7 @@ strums = {
 	'E': [(3,7),(2,2),(2,11),(2,7),(1,2),(1,7)],
 	'G': [(3,10),(2,2),(2,10),(2,5),(1,2),(1,10)]}
 
+#Array to go over each note in case of fret shift
 
 notes_ar = [['A1','A#1','B1','C1','C#1','D1','D#1','E1','F1','F#1','G1','G#1'],
 		['A2','A#2','B2','C2','C#2','D2','D#2','E2','F2','F#2','G2','G#2'],
@@ -36,6 +35,8 @@ ranges = [[(160, 179),(106, 255),(0, 255)], # Red
 		[(60, 90),(81, 255),(0, 255)],	# Green
 		[(100, 119),(136, 255),(0, 255)]] # Blue
 
+#Clear noise when reading image contours
+
 def clearNoise(img):
 	kernel = np.ones((10, 10), np.uint8)
 	clrimg = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
@@ -45,19 +46,7 @@ def clearNoise(img):
 	# Clears noise from image
 	return clrimg
 
-def get_strum(mode, direction):
-	if direction == 'up':
-		for row in strums:
-			if row[0] == mode:
-				return row[1]
-	else:
-		for row in strums:
-			if row[0] == mode:
-				rev = ""
-				_array = row[1].split(" ")
-				for row2 in reversed(_array):
-					rev += row2 + " "
-				return rev[:-1]
+#Filter Out Each ColorBand covered Finger
 
 def filterFingers(img):
 		
@@ -89,6 +78,8 @@ def filterFingers(img):
 	# Returns an array of three filtered fingers images
 	return fingerArray
 
+#Get coordinates of each fingers/bands topmost point
+
 def getPositions(imgArray):
 	# Returns the topmost points of filtered blobs from given imgs
 
@@ -110,6 +101,8 @@ def getPositions(imgArray):
 		positions.append(topmost)
 
 	return positions
+
+#Find the Chords to be played based on finger orientation
 
 def getMode(positionArray):
 	# Finds mode using by filtering three color strips and finding positions
@@ -137,6 +130,8 @@ def getMode(positionArray):
 
 	return mode
 
+#Keep tab of strumming hand
+
 def getLowerBlob(img):
 	# Filters lower blob and returns position
 	position = (0, 0)
@@ -156,6 +151,8 @@ def getLowerBlob(img):
 
 	return position
 
+#Generate notes combination based on fret shift, strum direction, chord 
+
 def getPattern(mode,dist,direction):
 	pattern=''
 	for note in strums[mode]:
@@ -173,11 +170,15 @@ def getPattern(mode,dist,direction):
 			rev += row2 + " "
 		return rev[:-1]
 
+#Init neck size
+
 def initNeck(top,bottom):
 	#Initialize the neck length
 	neck_len=(top[0]-bottom[0][0])/2
 	neck_bottom=bottom[0][0]
 	neck_top=top[0]
+
+#get fret shift
 
 def getDistance(positions):
 	#Get Distance on the neck
