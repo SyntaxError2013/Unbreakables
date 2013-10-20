@@ -8,8 +8,30 @@ def init():
 
 	vc = cv2.VideoCapture(0)
 	
-	configure();
+	configure()
+	play()
 
+	cv2.destroyAllWindows()
+
+
+
+def configure():
+
+	time.sleep(3)
+
+	ret, frame = vc.read()
+	
+	if ret:
+		hsvframe = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+		fingerImages = lib.filterFingers(hsvframe)
+		fingerPositions = lib.getPositions(fingerImages)
+		lowerPos = lib.getLowerBlob(hsvframe)
+		lib.initNeck(fingerPositions[0],lowerPos)
+
+	time.sleep(1)
+
+
+def play():
 	ret, frame = vc.read()
 
 	# Timer for saving strum timings and saving music
@@ -34,8 +56,6 @@ def init():
 		cv2.imshow('blue', fingerImages[2])
 
 		fingerPositions = lib.getPositions(fingerImages)
-
-		
 
 		# Detect the mode of playback
 		mode = lib.getMode(fingerPositions)
@@ -93,28 +113,6 @@ def init():
 		if key == 27:	#Ends the session and save the song. Press ESCAPE key
 			play.save('muse', song)
 			break
-
-	cv2.destroyAllWindows()
-
-
-
-def configure():
-
-	time.sleep(3)
-
-	ret, frame = vc.read()
-	
-	if ret:
-		hsvframe = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-		fingerImages = lib.filterFingers(hsvframe)
-		fingerPositions = lib.getPositions(fingerImages)
-		lowerPos = lib.getLowerBlob(hsvframe)
-		lib.initNeck(fingerPositions[0],lowerPos)
-
-	time.sleep(1)
-
-
-
 
 
 

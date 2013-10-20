@@ -145,7 +145,7 @@ def getLowerBlob(img):
 
 	return position
 
-def getPattern(mode,dist):
+def getPattern(mode,dist,direction):
 	pattern=''
 	for note in strum[mode]:
 		if note[1]+dist>11:
