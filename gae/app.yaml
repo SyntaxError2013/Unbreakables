@@ -8,3 +8,5 @@ handlers:
   script: share.php
 - url: /music
   script: music.php
+- url: /login
+  script: login.php
