@@ -7,19 +7,9 @@ def init():
 	#Initialize and configure
 
 	vc = cv2.VideoCapture(0)
-	ret, frame = vc.read()
-	vc = cv2.VideoCapture(0)
-
 	time.sleep(3)
 
 	ret, frame = vc.read()
-
-	# Timer for saving strum timings and saving music
-	start = time.time()
-	gap = 0
-	prevStrum = ""
-	song = []
-
 
 	# Timer for saving strum timings and saving music
 	start = time.time()
@@ -37,7 +27,10 @@ def init():
 	while ret:
 		# Change color space for better detection
 		hsvframe = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-		fingerImages = lib.fingerImages(hsvframe)
+		fingerImages = lib.filterFingers(hsvframe)
+		cv2.imshow('red', fingerImages[0])	
+		cv2.imshow('green', fingerImages[1])
+		cv2.imshow('blue', fingerImages[2])
 
 		#Initialize the Neck
 
@@ -49,14 +42,6 @@ def init():
 		mode = lib.getMode(fingerPositions)
 		distance = lib.getDistance(fingerPositions)
 
-
-		# Change color space for better detection
-		hsvframe = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-		fingerImages = lib.fingerImages(hsvframe)
-		fingerPositions = lib.getPositions(fingerImages)
-		# Detect the mode of playback
-		mode = lib.getMode(fingerPositions)
-
 		# Show the mode on screen
 		cv2.putText(frame, mode , (100, 100), cv2.FONT_HERSHEY_SIMPLEX, 4, 255)
 		cv2.imshow('preview', frame)	
@@ -66,7 +51,7 @@ def init():
 
 		# Motion detection for lower hand
 		if prevPos != 0:
-			disp = lowerPos[1] - prevPos
+			disp = lowerPos[0][1] - prevPos
 			direction = direction + disp
 			if direction < -100:
 				up = 1
@@ -76,7 +61,7 @@ def init():
 				direction = 0
 		if firstframe == 1:
 			firstframe = 0
-		prevPos = lowerPos[1]
+		prevPos = lowerPos[0][1]
 			
 		# Perform the playback and append the strum in song
 		if down == 1:

@@ -68,9 +68,9 @@ def filterFingers(img):
 
 	fingerArray = []
 
-	for x in range(2):
-		min = np.array([ranges[x][0][0], ranges[x][1][0], ranges[x][2][0]], np.uint8)
-		max = np.array([ranges[x][0][1], ranges[x][1][1], ranges[x][2][1]], np.uint8)
+	for x in range(3):
+		min = np.array([ranges[x-1][0][0], ranges[x-1][1][0], ranges[x-1][2][0]], np.uint8)
+		max = np.array([ranges[x-1][0][1], ranges[x-1][1][1], ranges[x-1][2][1]], np.uint8)
 		im = cv2.inRange(imgcropped, min, max)
 		im = clearNoise(im)
 		fingerArray.append(im)
@@ -81,17 +81,14 @@ def filterFingers(img):
 def getPositions(imgArray):
 	# Returns the topmost points of filtered blobs from given imgs
 
-	count=0
-
 	positions=[]
 
 	for img in imgArray:
 
-		image, contours, hierarchy = cv2.findContours(img,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+		contours, hierarchy = cv2.findContours(img,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
 
 		if len(contours)<1:
-			positions[count]=(0,0)
-			count+=1
+			positions.append((0,0))
 			continue
 
 
@@ -99,9 +96,7 @@ def getPositions(imgArray):
 
 		topmost = tuple(cnt[cnt[:,:,1].argmin()][0])
 
-		positions[count]=topmost
-
-		count+=1
+		positions.append(topmost)
 
 	return positions
 
