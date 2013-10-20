@@ -19,4 +19,3 @@ def send(file_name, url):
 		return int(r.text)
 	else:
 		return ERROR_NO_RESPONSE
-		
