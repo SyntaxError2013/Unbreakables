@@ -106,7 +106,7 @@ def start():
 				play.play(lib.getPattern(mode,distance,'up'))
 				if gap == 0:
 					start = time.time()
-					prevStrum = lib.getPattern(mode,distance,'down')
+					prevStrum = lib.getPattern(mode,distance,'up')
 					gap = 1
 				up = 0
 
