@@ -9,6 +9,24 @@ strums = [
 	['E', 'E4 B3 G#3 E3 B2 E2'],
 	['G', 'G4 B3 G3 D3 B2 G2']]
 
+"""
+#(post_fix_num,note)
+
+strums = [
+	'A': [(3,7),(2,4),(3,0),(2,7),(1,0),(1,7)],
+	'C': [(3,7),(2,3),(10,2),(2,7),(1,3),(1,7)],
+	'D': [(3,9),(2,5),(2,11),(2,5),(1,0),(1,7)],
+	'E': [(3,7),(2,2),(2,11),(2,7),(1,2),(1,7)],
+	'G': [(3,10),(2,2),(2,10),(2,5),(1,2),(1,10)]]
+
+"""
+
+notes_ar = [['A1','A#1','B1','C1','C#1','D1','D#1','E1','F1','F#1','G1','G#1'],
+		['A2','A#2','B2','C2','C#2','D2','D#2','E2','F2','F#2','G2','G#2'],
+		['A3','A#3','B3','C3','C#3','D3','D#3','E3','F3','F#3','G3','G#3'],
+		['A4','A#4','B4','C4','C#4','D4','D#4','E4','F4','F#4','G4','G#4'],
+		['A5','A#5','B5','C5','C#5','D5','D#5','E5','F5','F#5','G5','G#5']]
+
 def get_strum(mode, direction):
 	if direction == 'up':
 		for row in strums:
@@ -119,3 +137,13 @@ def getLowerBlob(img):
 		position = pos
 
 	return position
+
+def getPattern(mode,dist):
+	pattern=''
+	for note in strum[mode]:
+		if(note[1]+dist>11):
+			pattern=pattern+notes_ar[note[0]+1][(note[1]+dist)%12]+' '
+		else
+			pattern=pattern+notes_ar[note[0]][(note[1]+dist)%12]+' '
+
+	return pattern
