@@ -2,10 +2,24 @@ import lib
 import cv2
 import time
 import play
-
+	
 def init():
+	#Initialize and configure
+
 	vc = cv2.VideoCapture(0)
 	ret, frame = vc.read()
+	vc = cv2.VideoCapture(0)
+
+	time.sleep(3)
+
+	ret, frame = vc.read()
+
+	# Timer for saving strum timings and saving music
+	start = time.time()
+	gap = 0
+	prevStrum = ""
+	song = []
+
 
 	# Timer for saving strum timings and saving music
 	start = time.time()
@@ -21,6 +35,20 @@ def init():
 	firstframe = 1
 
 	while ret:
+		# Change color space for better detection
+		hsvframe = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+		fingerImages = lib.fingerImages(hsvframe)
+
+		#Initialize the Neck
+
+		fingerPositions = lib.getPositions(fingerImages)
+
+		lib.initNeck(fingerPositions[0],lib.getLowerBlob(hsvframe))
+
+		# Detect the mode of playback
+		mode = lib.getMode(fingerPositions)
+		distance = lib.getDistance(fingerPositions)
+
 
 		# Change color space for better detection
 		hsvframe = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -83,4 +111,4 @@ def init():
 			break
 
 	cv2.destroyAllWindows()
-
+t
