@@ -159,8 +159,11 @@ def getPattern(mode,dist,direction):
 		if note[1]+dist>11:
 			pattern=pattern+notes_ar[note[0]+1][(note[1]+dist)%12]+' '
 		else:
-			pattern=pattern+notes_ar[note[0]][(note[1]+dist)%12]+' '
-			print notes_ar[note[0]][(note[1]+dist)%12]
+			try:
+				pattern=pattern+notes_ar[note[0]][(note[1]+dist)%12]+' '
+			except IndexError:
+				return ''
+
 	if direction=='up':
 		return pattern
 	else:

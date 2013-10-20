@@ -56,9 +56,9 @@ def start():
 		# Change color space for better detection
 		hsvframe = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 		fingerImages = lib.filterFingers(hsvframe)
-		# cv2.imshow('red', fingerImages[0])	
-		# cv2.imshow('green', fingerImages[1])
-		# cv2.imshow('blue', fingerImages[2])
+		cv2.imshow('red', fingerImages[0])	
+		cv2.imshow('green', fingerImages[1])
+		cv2.imshow('blue', fingerImages[2])
 
 		fingerPositions = lib.getPositions(fingerImages)
 
@@ -128,3 +128,5 @@ def start():
 		if key == 27:	#Ends the session and save the song. Press ESCAPE key
 			play.save('muse', song, 0.05, [0, prevTime, 0.1])
 			break
+
+init()
