@@ -79,6 +79,7 @@ def _save(file_name, notes, delay_period = 0.05, fade = [0, 4, 0.1]):
 			j += 1
 
 		final += "norm -1"
+		print final
 	subprocess.call(final, shell = True)
 
 def play(notes, delay_period = 0.05, fade = [0, 4, 0.1]):
