@@ -2,14 +2,16 @@ import lib
 import cv2
 import time
 import play
+
+vc = cv2.VideoCapture(0)
 	
 def init():
 	#Initialize and configure
 
-	vc = cv2.VideoCapture(0)
+	
 	
 	configure()
-	play()
+	start()
 
 	cv2.destroyAllWindows()
 
@@ -31,7 +33,7 @@ def configure():
 	time.sleep(1)
 
 
-def play():
+def start():
 	ret, frame = vc.read()
 
 	# Timer for saving strum timings and saving music
@@ -88,10 +90,10 @@ def play():
 				elapsed = time.time() - start
 				song.append([prevStrum, elapsed])
 				gap == 0
-			play.play(lib.get_strum(mode, 'down'))
+			play.play(lib.getPattern(mode,distance,'down'))
 			if gap == 0:
 				start = time.time()
-				prevStrum = lib.get_strum(mode, 'down')
+				prevStrum = lib.getPattern(mode,distance, 'down')
 				gap = 1
 			down = 0
 
@@ -101,10 +103,10 @@ def play():
 					elapsed = time.time() - start
 					song.append([prevStrum, elapsed])
 					gap == 0
-				play.play(lib.get_strum(mode, 'up'))
+				play.play(lib.getPattern(mode,distance,'up'))
 				if gap == 0:
 					start = time.time()
-					prevStrum = lib.get_strum(mode, 'down')
+					prevStrum = lib.getPattern(mode,distance,'down')
 					gap = 1
 				up = 0
 
@@ -112,4 +114,7 @@ def play():
 		key = cv2.waitKey(20)
 		if key == 27:	#Ends the session and save the song. Press ESCAPE key
 			play.save('muse', song)
-			break
+
+
+init()
+
